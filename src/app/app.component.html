@@ -1,17 +1,41 @@
 <div class="container">
-      <h1>Clima App</h1>
-      <input [(ngModel)]="city" placeholder="Ciudad" />
-      <button (click)="searchWeather()">Buscar</button>
+      <mat-toolbar color="primary">🌤️ Clima</mat-toolbar>
 
-      <div *ngIf="weather">
-        <h2>Clima en {{ weather.name }}</h2>
-        <p>🌡️ Temperatura: {{ weather.main.temp }}°C</p>
-        <p>☁️ Condición: {{ weather.weather[0].description }}</p>
-        <p>💨 Viento: {{ weather.wind.speed }} m/s</p>
-        <p>💧 Humedad: {{ weather.main.humidity }}%</p>
+      <div class="search">
+        <mat-form-field appearance="outline">
+        <mat-label>Ciudad</mat-label>
+        <input matInput [(ngModel)]="city" />
+      </mat-form-field>
+    <button mat-raised-button color="accent" (click)="searchWeather()">Buscar</button>
+      </div>
+      <!-- <mat-form-field class="example-form-field">
+        <mat-label>Clearable input</mat-label>
+        <input matInput type="text" [(ngModel)]="city" placeholder="Ciudad" >
+        @if (city) {
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="city=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+    </mat-form-field> -->
+      <!-- <button mat-flat-button color="primary" (click)="searchWeather()">Buscar</button> -->
+
+      <div class="weather-card" *ngIf="weather">
+        <mat-card>
+          <mat-card-title>Clima en {{ weather.name }}</mat-card-title>
+          <mat-card-content>
+            <p>🌡️ Temperatura: {{ weather.main.temp }} °C</p>
+            <p>☁️ Condición: {{ weather.weather[0].description }}</p>
+            <p>💧 Humedad: {{ weather.main.humidity }}%</p>
+            <p>💨 Viento: {{ weather.wind.speed }} km/h</p>
+          </mat-card-content>
+        </mat-card>
       </div>
 
-      <div *ngIf="history.length">
+      <div class="weather-card" *ngIf="weather === undefined">
+        <mat-card-title>Ciudad no encontrada.</mat-card-title>
+      </div>
+
+      <div class="history"  *ngIf="history.length">
         <h3>Historial de Busquedas</h3>
         <ul>
           <li *ngFor="let h of history">{{ h.city }}</li>
